@@ -301,6 +301,17 @@ class _ZoomState extends State<Zoom> with TickerProviderStateMixin {
                 MultiTouchGestureRecognizer>(
               () => MultiTouchGestureRecognizer(),
               (MultiTouchGestureRecognizer instance) {
+                instance.onSingleTap = (point) {
+                  if (widget.doubleTapZoom) {
+                    midlePoint = point;
+                    relativeMidlePoint = Offset(
+                        ((auxLeft + localLeft + centerLeft) * -1 +
+                            midlePoint.dx) *
+                            (1 / scale),
+                        ((auxTop + localTop + centerTop) * -1 + midlePoint.dy) *
+                            (1 / scale));
+                  }
+                };
                 instance.onMultiTap = (firstPoint, secondPoint) {
                   midlePoint = Offset((firstPoint.dx + secondPoint.dx) / 2.0,
                       (firstPoint.dy + secondPoint.dy) / 2.0);
